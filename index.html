@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotaract Club of SAFGC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .hero-slide.active {
+            opacity: 1;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 font-sans text-gray-100 min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- Top Navigation Bar -->
+    <nav class="w-full bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="showSection('home')">
+            <span class="text-cyan-400 font-extrabold text-xl tracking-wider uppercase">ROTARACT</span>
+            <span class="text-white font-bold text-xl tracking-wider uppercase">SAFGC</span>
+        </div>
+        <div class="flex items-center gap-6 md:gap-8 text-sm font-semibold text-gray-200">
+            <button onclick="showSection('home')" class="hover:text-cyan-400 transition-colors py-1">Home</button>
+            <button onclick="showSection('beneficiaries')" class="hover:text-cyan-400 transition-colors py-1">Beneficiaries</button>
+            <button onclick="showSection('board')" class="hover:text-cyan-400 transition-colors py-1">Projects</button>
+            <button onclick="showSection('profile')" class="hover:text-cyan-400 transition-colors py-1">Profile</button>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow flex flex-col relative text-white overflow-hidden">
+        
+        <!-- Background Slider -->
+        <div id="hero-slider" class="absolute inset-0 z-0 pointer-events-none">
+            <div class="hero-slide active" style="background-image: linear-gradient(rgba(15, 23, 42, 0.70), rgba(15, 23, 42, 0.80)), url('bg1.jpg');"></div>
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(15, 23, 42, 0.70), rgba(15, 23, 42, 0.80)), url('bg2.jpg');"></div>
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(15, 23, 42, 0.70), rgba(15, 23, 42, 0.80)), url('bg3.jpg');"></div>
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(15, 23, 42, 0.70), rgba(15, 23, 42, 0.80)), url('bg4.jpg');"></div>
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(15, 23, 42, 0.70), rgba(15, 23, 42, 0.80)), url('bg5.jpg');"></div>
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(15, 23, 42, 0.70), rgba(15, 23, 42, 0.80)), url('bg6.jpg');"></div>
+        </div>
+
+        <div class="p-6 md:p-12 flex-grow flex flex-col justify-between z-10 max-w-6xl mx-auto w-full overflow-hidden">
+
+            <!-- HOME SECTION -->
+            <section id="homeSection" class="max-w-4xl space-y-8 my-auto text-center md:text-left">
+                <h2 class="text-3xl md:text-5xl font-extrabold leading-tight text-white drop-shadow-md">
+                    Rotaract Club of SAFGC empowers youth leaders to create sustainable community impact.
+                </h2>
+                <p class="text-lg md:text-xl text-slate-300 leading-relaxed drop-shadow">
+                    Fellowship Through Service. Sponsored by Rotary Club of Bangalore Kalyan, upholding youth empowerment and community development through active volunteering.
+                </p>
+                <div class="pt-2 flex flex-wrap gap-4 justify-center md:justify-start items-center">
+                    <button onclick="showSection('beneficiaries')" class="inline-block text-sm font-bold tracking-wider uppercase text-slate-200 border-b-2 border-slate-200 pb-1 hover:text-cyan-400 hover:border-cyan-400 transition">
+                        OUR IMPACT &rarr;
+                    </button>
+                </div>
+            </section>
+
+            <!-- BENEFICIARIES SECTION -->
+            <section id="beneficiariesSection" class="hidden w-full max-w-4xl mx-auto space-y-6 my-auto">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl md:text-3xl font-extrabold tracking-wider uppercase text-cyan-400">
+                        BENEFICIARIES & CLUB STATS
+                    </h3>
+                    <p class="text-slate-300 text-sm mt-1">Key metrics and overall impact of Rotaract Club of SAFGC</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div class="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-xl hover:border-cyan-500/50 transition duration-300">
+                        <span class="text-xs font-bold tracking-widest uppercase text-slate-400">TOTAL PROJECTS</span>
+                        <div class="text-4xl font-extrabold text-white tracking-tight mt-2"><span id="count-projects">0</span></div>
+                    </div>
+                    <div class="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-xl hover:border-cyan-500/50 transition duration-300">
+                        <span class="text-xs font-bold tracking-widest uppercase text-slate-400">VOLUNTEERS</span>
+                        <div class="text-4xl font-extrabold text-white tracking-tight mt-2"><span id="count-volunteers">0</span></div>
+                    </div>
+                    <div class="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-xl hover:border-cyan-500/50 transition duration-300">
+                        <span class="text-xs font-bold tracking-widest uppercase text-slate-400">VOL. HOURS</span>
+                        <div class="text-4xl font-extrabold text-white tracking-tight mt-2"><span id="count-hours">0</span></div>
+                    </div>
+                    <div class="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-xl hover:border-cyan-500/50 transition duration-300">
+                        <span class="text-xs font-bold tracking-widest uppercase text-slate-400">BENEFICIARIES</span>
+                        <div class="text-4xl font-extrabold text-white tracking-tight mt-2"><span id="count-beneficiaries">0</span></div>
+                    </div>
+                    <div class="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-xl hover:border-cyan-500/50 transition duration-300 md:col-span-2 lg:col-span-2">
+                        <span class="text-xs font-bold tracking-widest uppercase text-slate-400">CONTRIBUTIONS</span>
+                        <div class="text-4xl font-extrabold text-white tracking-tight mt-2">₹<span id="count-contributions">0</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROJECTS SECTION -->
+            <section id="boardSection" class="hidden w-full space-y-6 text-gray-900 my-auto overflow-y-auto no-scrollbar max-h-[75vh] pr-2">
+                <h3 class="text-3xl font-bold text-white border-b border-slate-800 pb-3">Our Projects & Activities</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    
+                    <!-- 1. Skillhub - Vocational Tailoring -->
+                    <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col relative">
+                        <div class="absolute top-4 left-4 z-10 bg-slate-900/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            Community Service
+                        </div>
+                        <img src="project7.jpg" alt="Skillhub - Vocational Tailoring" class="w-full h-64 object-cover">
+                        <div class="p-6 space-y-4 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
+                                    <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded">COMPLETED</span>
+                                    <span>27th August 2026</span>
+                                </div>
+                                <h4 class="font-extrabold text-xl text-gray-900">Skillhub - Vocational Tailoring</h4>
+                                <p class="text-sm text-gray-600 mt-2 leading-relaxed">Commenced a new batch of vocational tailoring classes for 20 enrolled students with an external instructor.</p>
+                            </div>
+                            <div class="pt-4 border-t border-gray-100 flex items-center justify-between text-sm">
+                                <span class="text-gray-500 font-medium">45 Volunteer Hours</span>
+                                <button onclick="openModal('Skillhub - Vocational Tailoring', 'Community Service', '27th August 2026', 'project7.jpg', 20, 20, 8, 45, 'Commenced a new comprehensive batch of vocational tailoring classes designed to equip individuals with practical tailoring skills. Conducted with an expert external instructor, this initiative fosters self-reliance and empowers participants with sustainable livelihood opportunities.')" class="text-cyan-600 font-bold hover:text-cyan-700 flex items-center gap-1">Read More &rarr;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Eye Care Camp -->
+                    <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col relative">
+                        <div class="absolute top-4 left-4 z-10 bg-slate-900/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            Community Service
+                        </div>
+                        <img src="project9.jpg" alt="Eye Care Camp" class="w-full h-64 object-cover">
+                        <div class="p-6 space-y-4 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
+                                    <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded">COMPLETED</span>
+                                    <span>10th September 2026</span>
+                                </div>
+                                <h4 class="font-extrabold text-xl text-gray-900">Eye Care Camp</h4>
+                                <p class="text-sm text-gray-600 mt-2 leading-relaxed">Community Service eye screening camp benefiting 346 beneficiaries, organized with Rotary Club of Bangalore Kalyan.</p>
+                            </div>
+                            <div class="pt-4 border-t border-gray-100 flex items-center justify-between text-sm">
+                                <span class="text-gray-500 font-medium">60 Volunteer Hours</span>
+                                <button onclick="openModal('Eye Care Camp', 'Community Service', '10th September 2026', 'project9.jpg', 346, 12, 10, 60, 'Community Service comprehensive eye screening camp organized in collaboration with the Rotary Club of Bangalore Kalyan. Provided expert vision tests, eye care consultations, and support to 346 beneficiaries from underprivileged backgrounds.')" class="text-cyan-600 font-bold hover:text-cyan-700 flex items-center gap-1">Read More &rarr;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Health Screening Camp -->
+                    <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col relative">
+                        <div class="absolute top-4 left-4 z-10 bg-slate-900/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            Community Service
+                        </div>
+                        <img src="project10.jpg" alt="Health Screening Camp" class="w-full h-64 object-cover">
+                        <div class="p-6 space-y-4 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
+                                    <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded">COMPLETED</span>
+                                    <span>10th September 2026</span>
+                                </div>
+                                <h4 class="font-extrabold text-xl text-gray-900">Health Screening Camp</h4>
+                                <p class="text-sm text-gray-600 mt-2 leading-relaxed">Community Service health camp benefiting 275 beneficiaries, organized with Rotary Club of Bangalore Kalyan.</p>
+                            </div>
+                            <div class="pt-4 border-t border-gray-100 flex items-center justify-between text-sm">
+                                <span class="text-gray-500 font-medium">55 Volunteer Hours</span>
+                                <button onclick="openModal('Health Screening Camp', 'Community Service', '10th September 2026', 'project10.jpg', 275, 15, 12, 55, 'A comprehensive medical health screening camp aimed at promoting preventive healthcare and early diagnosis. Organized jointly with the Rotary Club of Bangalore Kalyan, successfully evaluating and advising 275 community beneficiaries.')" class="text-cyan-600 font-bold hover:text-cyan-700 flex items-center gap-1">Read More &rarr;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Blood Donation Camp -->
+                    <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col relative">
+                        <div class="absolute top-4 left-4 z-10 bg-slate-900/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            Community Service
+                        </div>
+                        <img src="project11.jpg" alt="Blood Donation Camp" class="w-full h-64 object-cover">
+                        <div class="p-6 space-y-4 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
+                                    <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded">COMPLETED</span>
+                                    <span>11th September 2026</span>
+                                </div>
+                                <h4 class="font-extrabold text-xl text-gray-900">Blood Donation Camp</h4>
+                                <p class="text-sm text-gray-600 mt-2 leading-relaxed">Hosted on campus with 25 generous donors, organized in collaboration with Rotary Club of Bangalore Kalyan.</p>
+                            </div>
+                            <div class="pt-4 border-t border-gray-100 flex items-center justify-between text-sm">
+                                <span class="text-gray-500 font-medium">40 Volunteer Hours</span>
+                                <button onclick="openModal('Blood Donation Camp', 'Community Service', '11th September 2026', 'project11.jpg', 75, 25, 10, 40, 'Hosted on campus in collaboration with the Rotary Club of Bangalore Kalyan. This life-saving drive successfully registered 25 generous donors, addressing critical blood shortages and helping roughly 75 hospital care beneficiaries.')" class="text-cyan-600 font-bold hover:text-cyan-700 flex items-center gap-1">Read More &rarr;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- PROFILE SECTION (Expanded for 4 Members) -->
+            <section id="profileSection" class="hidden w-full space-y-8 text-center my-auto overflow-y-auto no-scrollbar max-h-[75vh] py-6 px-4">
+                <h3 class="text-3xl font-bold text-white border-b border-slate-800 pb-3">Club Leadership Profiles</h3>
+                <div class="flex flex-col items-center gap-10 max-w-md mx-auto">
+                    
+                    <!-- Profile 1 -->
+                    <div class="flex flex-col items-center space-y-3 bg-slate-900/80 backdrop-blur-md border border-slate-800 p-8 rounded-3xl w-full shadow-2xl">
+                        <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-white/80 shadow-lg">
+                            <img src="profile1.jpg" alt="Rtr. Afeefa Rizwan" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/160?text=Geetanjali'">
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-extrabold text-white tracking-wide">Rtr. Afeefa Rizwan</h4>
+                            <p class="text-cyan-400 font-medium text-sm mt-1">President</p>
+                        </div>
+                    </div>
+
+                    <!-- Profile 2 -->
+                    <div class="flex flex-col items-center space-y-3 bg-slate-900/80 backdrop-blur-md border border-slate-800 p-8 rounded-3xl w-full shadow-2xl">
+                        <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-white/80 shadow-lg">
+                            <img src="profile2.jpg" alt="Rtr. Monika R" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/160?text=Aishwarya'">
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-extrabold text-white tracking-wide">Rtr. Monika R</h4>
+                            <p class="text-cyan-400 font-medium text-sm mt-1">Vice President</p>
+                        </div>
+                    </div>
+
+                    <!-- Profile 3 -->
+                    <div class="flex flex-col items-center space-y-3 bg-slate-900/80 backdrop-blur-md border border-slate-800 p-8 rounded-3xl w-full shadow-2xl">
+                        <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-white/80 shadow-lg">
+                            <img src="profile3.jpg" alt="Aamina Mirza" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/160?text=Member+3'">
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-extrabold text-white tracking-wide">IIP - Secretary Administration</h4>
+                            <p class="text-cyan-400 font-medium text-sm mt-1">IIP - Secretary Administration</p>
+                        </div>
+                    </div>
+
+                    <!-- Profile 4 -->
+                    <div class="flex flex-col items-center space-y-3 bg-slate-900/80 backdrop-blur-md border border-slate-800 p-8 rounded-3xl w-full shadow-2xl">
+                        <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-white/80 shadow-lg">
+                            <img src="profile4.jpg" alt="Rtr. Secretary Operations" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/160?text=Member+4'">
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-extrabold text-white tracking-wide">Rtr. R Dharshini</h4>
+                            <p class="text-cyan-400 font-medium text-sm mt-1">Secretary Operations</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Carousel Indicators -->
+            <div id="carousel-dots" class="flex justify-center gap-2 pt-6">
+                <button onclick="setSlide(0)" class="w-3 h-3 rounded-full bg-white transition-all"></button>
+                <button onclick="setSlide(1)" class="w-3 h-3 rounded-full bg-white/40 transition-all"></button>
+                <button onclick="setSlide(2)" class="w-3 h-3 rounded-full bg-white/40 transition-all"></button>
+                <button onclick="setSlide(3)" class="w-3 h-3 rounded-full bg-white/40 transition-all"></button>
+                <button onclick="setSlide(4)" class="w-3 h-3 rounded-full bg-white/40 transition-all"></button>
+                <button onclick="setSlide(5)" class="w-3 h-3 rounded-full bg-white/40 transition-all"></button>
+            </div>
+        </div>
+    </main>
+
+    <!-- PROJECT DETAILS MODAL -->
+    <div id="projectModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white border border-gray-200 rounded-3xl max-w-2xl w-full overflow-hidden text-gray-950 relative my-8 shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-20 bg-gray-100 hover:bg-gray-200 text-gray-800 w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition">&times;</button>
+            
+            <div class="relative">
+                <div class="absolute top-4 left-4 z-10 bg-slate-900/80 backdrop-blur-md text-cyan-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider" id="modalCategory">Community Service</div>
+                <img id="modalImg" src="" alt="Project Image" class="w-full h-64 md:h-80 object-cover">
+            </div>
+
+            <div class="p-6 md:p-8 space-y-6">
+                <div>
+                    <div class="flex items-center gap-3 text-xs text-gray-500 mb-2">
+                        <span id="modalDate" class="flex items-center gap-1">📅 </span>
+                        <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded">COMPLETED</span>
+                    </div>
+                    <h3 id="modalTitle" class="text-2xl md:text-3xl font-extrabold text-gray-900">Project Title</h3>
+                </div>
+
+                <!-- Impact Stats Grid -->
+                <div class="space-y-3">
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-cyan-600">Impact Stats</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            <span class="text-xs text-gray-500 block">Beneficiaries</span>
+                            <span id="statBeneficiaries" class="text-2xl font-bold text-gray-900 mt-1 block">0</span>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            <span class="text-xs text-gray-500 block">Participants</span>
+                            <span id="statParticipants" class="text-2xl font-bold text-gray-900 mt-1 block">0</span>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            <span class="text-xs text-gray-500 block">Volunteers</span>
+                            <span id="statVolunteers" class="text-2xl font-bold text-gray-900 mt-1 block">0</span>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            <span class="text-xs text-gray-500 block">Volunteer Hours</span>
+                            <span id="statHours" class="text-2xl font-bold text-gray-900 mt-1 block">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Description -->
+                <div class="space-y-3">
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-cyan-600">Project Description</h4>
+                    <p id="modalDesc" class="text-gray-700 text-sm md:text-base leading-relaxed bg-gray-50 p-4 rounded-xl border border-gray-200">
+                        Description text goes here...
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const dots = document.querySelectorAll('#carousel-dots button');
+
+        function setSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.replace('bg-white', 'bg-white/40');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.replace('bg-white/40', 'bg-white');
+        }
+
+        setInterval(() => {
+            const nextSlide = (currentSlide + 1) % slides.length;
+            setSlide(nextSlide);
+        }, 4000);
+
+        function showSection(sectionId) {
+            const sections = ['homeSection', 'beneficiariesSection', 'boardSection', 'profileSection'];
+            sections.forEach(id => document.getElementById(id).classList.add('hidden'));
+            document.getElementById(sectionId + 'Section').classList.remove('hidden');
+
+            if (sectionId === 'beneficiaries') animateImpactCounters();
+        }
+
+        function openModal(title, category, date, img, beneficiaries, participants, volunteers, hours, desc) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalCategory').innerText = category;
+            document.getElementById('modalDate').innerText = '📅 ' + date;
+            document.getElementById('modalImg').src = img;
+            document.getElementById('statBeneficiaries').innerText = beneficiaries;
+            document.getElementById('statParticipants').innerText = participants;
+            document.getElementById('statVolunteers').innerText = volunteers;
+            document.getElementById('statHours').innerText = hours;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('projectModal').classList.add('hidden');
+        }
+
+        document.getElementById('projectModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        function animateImpactCounters() {
+            const targets = { 
+                'count-projects': { target: 4, format: val => val }, 
+                'count-volunteers': { target: 77, format: val => val }, 
+                'count-hours': { target: 469, format: val => val },
+                'count-beneficiaries': { target: 2700, format: val => val >= 1000 ? (val/1000).toFixed(1) + 'k' : val },
+                'count-contributions': { target: 25380, format: val => val.toLocaleString('en-IN') }
+            };
+            const duration = 1500, steps = 50, intervalTime = duration / steps;
+
+            Object.keys(targets).forEach(id => {
+                let currentStep = 0;
+                const element = document.getElementById(id);
+                const info = targets[id];
+                const timer = setInterval(() => {
+                    currentStep++;
+                    const progressVal = Math.floor(info.target * (currentStep / steps));
+                    element.innerText = info.format(progressVal);
+                    if (currentStep >= steps) {
+                        element.innerText = info.format(info.target);
+                        clearInterval(timer);
+                    }
+                }, intervalTime);
+            });
+        }
+    </script>
+</body>
+</html>
